@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b43">
+  <meta name="description" content="Bilingual, fictional cybercrime investigation training simulator for police academy learning.">
+  <title>Cybercrime Investigation Lab | TN Police Academy</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="./" aria-label="Cybercrime Investigation Lab home">
+    <span class="brand-mark">CI</span><span><strong>CYBERCRIME INVESTIGATION LAB</strong><small>TRAINING SIMULATOR · TAMIL NADU</small></span>
+  </a>
+  <div class="header-tools">
+    <span class="training-pill"><span class="pulse"></span> TRAINING ENVIRONMENT</span>
+    <label class="language-switch" for="languageSelect"><span class="sr-only">Language</span>
+      <select id="languageSelect"><option value="en">English</option><option value="ta">தமிழ்</option></select>
+    </label>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow" data-i18n="eyebrow">POLICE ACADEMY · INVESTIGATOR DEVELOPMENT</p>
+      <h1 data-i18n="heroTitle">Digital evidence.<br><em>Investigative judgement.</em></h1>
+      <p class="hero-lede" data-i18n="heroLead">Practise responding to AI-enabled impersonation and cryptocurrency fraud through fictional, decision-based cases.</p>
+      <div class="hero-actions"><a class="button button-primary" href="#modules" data-i18n="explore">Explore training modules <span>→</span></a><button class="button button-ghost" id="startAll" data-i18n="startChallenge">Start final challenge</button></div>
+      <div class="hero-meta"><span>⌁ <b>8</b> modules</span><span>◷ <b>120</b> minutes</span><span>◎ <b>EN / தமிழ்</b></span></div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="radar"><div class="radar-ring r1"></div><div class="radar-ring r2"></div><div class="radar-ring r3"></div><div class="radar-sweep"></div><span class="radar-dot dot1"></span><span class="radar-dot dot2"></span><span class="radar-dot dot3"></span><div class="radar-center">CI<span>LAB</span></div></div>
+      <div class="art-label label-top"><span class="status-dot"></span> CASE FILE / SIM-08</div>
+      <div class="art-label label-bottom">DIGITAL FORENSICS <b>●●●○</b></div>
+    </div>
+  </section>
+  <section class="notice" role="note"><span class="notice-icon">!</span><div><strong data-i18n="trainingOnly">Training use only</strong><p data-i18n="noticeText">All people, events, wallets, transactions and records are fictional. This simulator is not a forensic tool, and its outputs are not proof of authenticity, identity or criminal conduct.</p></div></section>
+  <section class="section-heading" id="modules"><div><p class="eyebrow" data-i18n="curriculum">CURRICULUM</p><h2 data-i18n="modulesTitle">Investigation modules</h2><p data-i18n="modulesLead">Choose a case. Make a decision. Review the investigative rationale.</p></div><div class="progress-card"><div class="progress-top"><span data-i18n="progress">Your progress</span><strong id="progressText">0 / 8</strong></div><div class="progress-track"><div id="progressBar"></div></div></div></section>
+  <section class="module-grid" id="moduleGrid" aria-live="polite"></section>
+  <section class="instructor-band"><div><p class="eyebrow" data-i18n="instructorEyebrow">FACILITATOR RESOURCES</p><h2 data-i18n="instructorTitle">Turn decisions into discussion.</h2><p data-i18n="instructorText">Use the debrief prompts to connect each scenario to evidence preservation, corroboration, lawful process and investigative documentation.</p></div><button class="button button-light" id="openGuide" data-i18n="openGuide">Open instructor guide ↗</button></section>
+  <section class="footer-note"><span>TNPA · CYBERCRIME INVESTIGATION LAB</span><span>Fictional scenarios · No external APIs</span></section>
+</main>
+<div class="modal-backdrop" id="modal" hidden>
+  <section class="case-modal" role="dialog" aria-modal="true" aria-labelledby="caseTitle">
+    <div class="modal-head"><div><p class="eyebrow" id="caseKicker">CASE FILE / SIM-01</p><h2 id="caseTitle">Case title</h2></div><button class="icon-button" id="closeModal" aria-label="Close">×</button></div>
+    <div class="case-body"><div class="case-summary" id="caseSummary"></div><div class="case-content" id="caseContent"></div><div id="caseFeedback" aria-live="polite"></div></div>
+    <div class="modal-foot"><span id="caseStep">DECISION 1</span><button class="button button-primary" id="nextStep">Submit decision →</button></div>
+  </section>
+</div>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
