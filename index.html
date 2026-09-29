@@ -38,6 +38,40 @@
   <section class="notice" role="note"><span class="notice-icon">!</span><div><strong data-i18n="trainingOnly">Training use only</strong><p data-i18n="noticeText">All people, events, wallets, transactions and records are fictional. This simulator is not a forensic tool, and its outputs are not proof of authenticity, identity or criminal conduct.</p></div></section>
   <section class="section-heading" id="modules"><div><p class="eyebrow" data-i18n="curriculum">CURRICULUM</p><h2 data-i18n="modulesTitle">Investigation modules</h2><p data-i18n="modulesLead">Choose a case. Make a decision. Review the investigative rationale.</p></div><div class="progress-card"><div class="progress-top"><span data-i18n="progress">Your progress</span><strong id="progressText">0 / 8</strong></div><div class="progress-track"><div id="progressBar"></div></div></div></section>
   <section class="module-grid" id="moduleGrid" aria-live="polite"></section>
+
+  <section class="section-heading studio-heading" id="practical-studio"><div><p class="eyebrow">PRACTICAL DEMONSTRATIONS</p><h2>Deepfake & crypto case studio</h2><p>Build a clearly labelled synthetic media example, then follow a fictional crypto-fraud transaction trail.</p></div></section>
+  <section class="studio-grid">
+    <article class="studio-panel">
+      <div class="studio-panel-head"><span class="module-icon">◉</span><div><p class="eyebrow">DEMO A · SYNTHETIC MEDIA</p><h3>Training deepfake video preview</h3></div></div>
+      <p class="studio-copy">Create a non-real, fictional training clip preview. This is a visual simulation—not a real AI video generator or a forensic detector.</p>
+      <label class="field-label" for="scenarioSelect">Scenario</label>
+      <select id="scenarioSelect" class="field"><option value="official">Fictional official — urgent payment request</option><option value="family">Fictional family member — emergency request</option><option value="investor">Fictional investment promoter — guaranteed returns</option></select>
+      <label class="field-label" for="scriptInput">Dialogue (fictional)</label>
+      <textarea id="scriptInput" class="field" rows="3">This is a simulated training message. Verify every request through a trusted channel.</textarea>
+      <button class="button button-primary" id="generatePreview">Generate training preview</button>
+      <div class="video-stage" id="videoStage" aria-live="polite">
+        <div class="video-watermark">SYNTHETIC TRAINING SAMPLE · NOT A REAL PERSON</div>
+        <div class="avatar-head"><span class="avatar-hair"></span><span class="avatar-eyes"></span><span class="avatar-mouth"></span></div>
+        <div class="video-caption" id="videoCaption">Your fictional dialogue will appear here.</div>
+        <div class="video-controls"><span>▶ SIMULATED PREVIEW</span><span id="clipDuration">00:00</span></div>
+      </div>
+      <p class="safety-note"><strong>For classroom use:</strong> the preview uses a stylised fictional avatar and a visible watermark. It does not clone a real person's face or voice, and it does not create a downloadable deepfake video file.</p>
+    </article>
+    <article class="studio-panel">
+      <div class="studio-panel-head"><span class="module-icon">⌘</span><div><p class="eyebrow">DEMO B · TRANSACTION TRACING</p><h3>Walk through a crypto crime</h3></div></div>
+      <p class="studio-copy">Explore a fictional flow of funds. Select a transaction to inspect its amount, destination and investigative lead.</p>
+      <div class="case-facts"><span>CASE ID <b>SIM-CRYPTO-042</b></span><span>VICTIM LOSS <b>₹2,00,000 (illustrative)</b></span></div>
+      <div class="transaction-list" id="transactionList"></div>
+      <div class="transaction-detail" id="transactionDetail" aria-live="polite"></div>
+      <div class="trace-question">
+        <label class="field-label" for="traceAnswer">What does this transaction prove by itself?</label>
+        <select class="field" id="traceAnswer"><option value="">Choose an answer…</option><option value="identity">It proves the real-world identity of the wallet owner.</option><option value="movement">It records a transfer between addresses on the stated network; attribution needs more evidence.</option><option value="crime">It proves the recipient committed a crime.</option></select>
+        <button class="button button-primary" id="checkTrace">Check answer</button>
+        <div id="traceFeedback" class="case-feedback" hidden></div>
+      </div>
+    </article>
+  </section>
+
   <section class="instructor-band"><div><p class="eyebrow" data-i18n="instructorEyebrow">FACILITATOR RESOURCES</p><h2 data-i18n="instructorTitle">Turn decisions into discussion.</h2><p data-i18n="instructorText">Use the debrief prompts to connect each scenario to evidence preservation, corroboration, lawful process and investigative documentation.</p></div><button class="button button-light" id="openGuide" data-i18n="openGuide">Open instructor guide ↗</button></section>
   <section class="footer-note"><span>TNPA · CYBERCRIME INVESTIGATION LAB</span><span>Fictional scenarios · No external APIs</span></section>
 </main>
