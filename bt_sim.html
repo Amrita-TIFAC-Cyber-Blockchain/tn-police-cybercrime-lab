@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tamil Nadu Police Training by Amrita Vishwa Vidyapeetham</title>
+<link rel="preconnect" href="https://unpkg.com">
+<script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--text:#172033;--muted:#687386;--border:#dce3ed;--accent:#f7931a;--input:#e8f3ff;--output:#e8f8ef;--root:#fff0d9;--shadow:0 8px 28px #15223b0c}
+[data-theme="dark"]{--bg:#0e1420;--panel:#171f2e;--text:#e8edf5;--muted:#9eabc0;--border:#2b374b;--accent:#ffad3b;--input:#1c3550;--output:#193d32;--root:#49351b;--shadow:0 8px 28px #0003}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:22px clamp(16px,4vw,48px);background:var(--panel);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:16px}
+h1{font-size:clamp(21px,3vw,30px);margin:0}header p{margin:4px 0 0;color:var(--muted)}
+main{max-width:1500px;margin:auto;padding:22px clamp(12px,3vw,36px) 40px}
+.controls,.panel,.metric{background:var(--panel);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow)}
+.controls{padding:16px;display:grid;grid-template-columns:minmax(240px,1fr) auto auto auto;gap:10px;align-items:end}
+label{display:block;color:var(--muted);font-size:12px;font-weight:700;margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase}
+input,select,button{font:inherit;border-radius:9px;border:1px solid var(--border);padding:11px 12px;background:var(--panel);color:var(--text);min-height:42px}
+input{width:100%}button{cursor:pointer;font-weight:650}button.primary{background:var(--accent);color:#1c160c;border-color:var(--accent)}button:hover{filter:brightness(.97)}
+.metrics{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:12px;margin:16px 0}
+.metric{padding:14px 16px}.metric .k{font-size:12px;color:var(--muted);font-weight:650}.metric .v{font-size:21px;font-weight:750;margin-top:4px;overflow-wrap:anywhere}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px}
+.panel{overflow:hidden}.panelhead{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px;align-items:center}.panelhead h2{font-size:16px;margin:0}.sub{color:var(--muted);font-size:12px}
+#network{height:590px;width:100%;background:var(--panel)}.side{padding:16px}.side h2{font-size:16px;margin:0 0 12px}.side h3{font-size:13px;margin:18px 0 6px}.side p,.side li{font-size:13px;color:var(--muted)}.side ul{padding-left:18px}
+#details{font-size:13px;overflow-wrap:anywhere}.detailrow{padding:9px 0;border-bottom:1px solid var(--border)}.detailrow b{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.04em}.detailrow span{display:block;margin-top:3px}
+.status{margin:14px 0;padding:11px 13px;border-radius:10px;background:var(--panel);border:1px solid var(--border);color:var(--muted);font-size:13px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.tablewrap{overflow:auto;max-height:300px}table{border-collapse:collapse;width:100%;font-size:12px}th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);white-space:nowrap}th{color:var(--muted);position:sticky;top:0;background:var(--panel)}
+a{color:var(--accent)}.warning{color:#b66b00}.foot{font-size:12px;color:var(--muted);margin-top:16px}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:repeat(2,1fr)}#network{height:500px}}
+@media(max-width:520px){.controls{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}header{align-items:flex-start;flex-direction:column}}
+</style>
+
+<style>
+/* Training tabs */
+.tabbar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.tabbtn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:10px 16px;border-radius:10px;font-weight:700}
+.tabbtn.active{background:var(--accent);border-color:var(--accent);color:#1c160c}
+.tabpanel[hidden]{display:none!important}
+.case-table-wrap{overflow:auto}
+.case-table{width:100%;border-collapse:collapse;font-size:13px}
+.case-table th,.case-table td{padding:12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+.case-table th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.txid-cell{overflow-wrap:anywhere;min-width:280px}
+.case-action{display:inline-block;padding:7px 10px;border:1px solid var(--border);border-radius:8px;color:var(--text);text-decoration:none;font-weight:650}
+.case-action:hover{border-color:var(--accent)}
+</style>
+
+</head>
+<body>
+<header><div><h1>Tamil Nadu Police Training by Amrita Vishwa Vidyapeetham</h1><p>Bitcoin transaction graph analysis · Trace transaction inputs, outputs, and UTXO flows.</p></div><button id="themeBtn">☾ Dark mode</button></header>
+<main>
+<div class="tabbar" role="tablist" aria-label="Training modules">
+  <button class="tabbtn active" id="analysisTab" role="tab" aria-selected="true" aria-controls="analysisPanel">Transaction Analysis</button>
+  <button class="tabbtn" id="examplesTab" role="tab" aria-selected="false" aria-controls="examplesPanel">Example Cases</button>
+</div>
+<section class="tabpanel" id="analysisPanel" role="tabpanel" aria-labelledby="analysisTab">
+
+<section class="controls">
+ <div><label for="txid">Bitcoin TXID or wallet address</label><input id="txid" spellcheck="false" placeholder="Paste a TXID or Bitcoin address"></div>
+ <div><label for="networkSel">Network</label><select id="networkSel"><option value="mainnet">Mainnet</option><option value="testnet">Testnet</option></select></div>
+ <div><label for="scope">Graph scope</label><select id="scope"><option value="1">1-hop neighbours</option><option value="2">2-hop (limited)</option></select></div>
+ <button class="primary" id="analyze">Analyze</button>
+</section>
+<p class="explorer-link-wrap"><a id="explorerLink" href="https://mempool.space" target="_blank" rel="noreferrer">Open in mempool.space ↗</a></p>
+<div id="status" class="status">Enter a Bitcoin TXID or wallet address, then select <b>Analyze</b>. The explorer reads public blockchain data from mempool.space. No transaction is broadcast.</div>
+<section class="metrics">
+ <div class="metric"><div class="k">Inputs</div><div class="v" id="mInputs">—</div></div>
+ <div class="metric"><div class="k">Outputs</div><div class="v" id="mOutputs">—</div></div>
+ <div class="metric"><div class="k">Output value</div><div class="v" id="mValue">—</div></div>
+ <div class="metric"><div class="k">Fee</div><div class="v" id="mFee">—</div></div>
+ <div class="metric"><div class="k">Confirmations</div><div class="v" id="mConf">—</div></div>
+</section>
+<div class="layout">
+ <section class="panel"><div class="panelhead"><div><h2>Transaction flow graph</h2><div class="sub">Select a node to inspect it; drag nodes and zoom to explore.</div></div><div class="legend"><span><i class="dot" style="background:#f7931a"></i>Focus TX</span><span><i class="dot" style="background:#5597df"></i>Parent TX</span><span><i class="dot" style="background:#49ad7b"></i>Spender TX</span></div></div><div id="network"></div></section>
+ <aside class="panel"><div class="side"><h2>Selected node</h2><div id="details"><p>Select a node in the graph to view details.</p></div>
+ <h3>How to interpret</h3><ul><li>Arrow direction follows value flow: parent transaction → focus transaction → spending transaction.</li><li>Edges represent known UTXO spends, not proof of common ownership.</li><li>Bitcoin transactions can have multiple inputs and outputs; change detection is heuristic and not asserted here.</li><li>Addresses are intentionally not clustered: address reuse and shared transactions can mislead attribution.</li></ul>
+ <h3>Investigation cautions</h3><p>Graph proximity alone does not identify a person, exchange, illicit activity, or beneficial owner. Treat clustering and attribution as hypotheses requiring corroboration.</p></div></aside>
+</div>
+<section class="panel" style="margin-top:14px"><div class="panelhead"><h2>Inputs & outputs</h2><span class="sub">Amounts in BTC</span></div><div class="tablewrap"><table><thead><tr><th>Type</th><th>Index</th><th>Value (BTC)</th><th>Address / script</th><th>Related TXID</th></tr></thead><tbody id="ioTable"><tr><td colspan="5">No transaction loaded.</td></tr></tbody></table></div></section>
+<p class="foot">© 2026 - Ramaguru Radhakrishnan Research Lab.</p><footer class="foot" style="border-top:1px solid var(--border);padding-top:12px;margin-top:20px;text-align:center">© 2026 - Ramaguru Radhakrishnan Research Lab</footer>
+
+</section>
+<section class="tabpanel" id="examplesPanel" role="tabpanel" aria-labelledby="examplesTab" hidden>
+  <section class="panel">
+    <div class="panelhead">
+      <div>
+        <h2>Example Cybercrime Cases</h2>
+        <div class="sub">Publicly documented cases for classroom transaction-tracing exercises.</div>
+      </div>
+    </div>
+    <div class="case-table-wrap">
+      <table class="case-table">
+        <thead><tr><th>Case</th><th>Year</th><th>Case summary</th><th>Public blockchain identifier</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Colonial Pipeline / DarkSide ransomware</strong></td>
+            <td>2021</td>
+            <td>Bitcoin ransom payment associated with the Colonial Pipeline ransomware incident. This TXID is included as a classroom starting point; trace inputs, outputs, and subsequent movements. Public reporting states that Colonial Pipeline paid approximately 75 BTC and U.S. authorities later announced seizure of approximately 63.7 BTC in alleged ransom proceeds.</td>
+            <td class="txid-cell"><code>TXID: 6a798026d44af27dbacd28ea21462808df8deca51794cec80c1b59e07ef924a2</code></td>
+            <td><a class="case-action" href="https://mempool.space/tx/6a798026d44af27dbacd28ea21462808df8deca51794cec80c1b59e07ef924a2" target="_blank" rel="noreferrer">Open TX ↗</a></td>
+          </tr>
+          <tr>
+            <td><strong>India: Bitcoin theft / Sandeep Katoch matter</strong></td>
+            <td>2020–2023</td>
+            <td>A Delhi court judgment describes a complaint involving an alleged unauthorized transfer of Bitcoin and identifies a WazirX-linked receiving address. The court record says the recipient was treated as a bona fide purchaser in the investigation; the address is a tracing lead, not a finding that the exchange or recipient committed the theft.</td>
+            <td class="txid-cell"><code>BTC address: 3N6ES6ERICanAQBMu2uNXy3nbZjgT8E74W</code></td>
+            <td><a class="case-action" href="https://www.blockchain.com/explorer/addresses/btc/3N6ES6ERICanAQBMu2uNXy3nbZjgT8E74W" target="_blank" rel="noreferrer">Open address ↗</a></td>
+          </tr>
+          <tr>
+            <td><strong>India-linked crypto theft: funds traced to exchange-linked wallets</strong></td>
+            <td>2022</td>
+            <td>A Delhi High Court case record describes investigators tracing stolen crypto to addresses associated with a WazirX account. These are wallet addresses (not TXIDs); use the explorer to inspect incoming/outgoing transfers and then select individual transactions for analysis.</td>
+            <td class="txid-cell"><code>ETH: 0x0380d5c5c23551a109f5d3aaf76ced9e65d96a24<br><br>BTC: bc1qlqmlw0e7cyljum6w8fn5c4he5462f2ckjtzl72</code></td>
+            <td><a class="case-action" href="https://etherscan.io/address/0x0380d5c5c23551a109f5d3aaf76ced9e65d96a24" target="_blank" rel="noreferrer">Open ETH ↗</a><br><br><a class="case-action" href="https://www.blockchain.com/explorer/addresses/btc/bc1qlqmlw0e7cyljum6w8fn5c4he5462f2ckjtzl72" target="_blank" rel="noreferrer">Open BTC ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:14px 16px;color:var(--muted);font-size:13px">
+      Training note: blockchain transaction links show on-chain movement, not by themselves the identity of a person or proof of criminal conduct. Use corroborating records and clearly distinguish confirmed facts from investigative hypotheses.
+      <br><br>References: <a href="https://www.fbi.gov/news/press-releases/fbi-deputy-director-paul-abbates-remarks-at-press-conference-regarding-the-ransomware-attack-on-colonial-pipeline" target="_blank" rel="noreferrer">FBI: Colonial Pipeline, June 7, 2021 ↗</a> · <a href="https://gianlucamazza.github.io/bitcoincrimes/cases/colonial-pipeline/" target="_blank" rel="noreferrer">Colonial Pipeline transaction reference ↗</a> · <a href="https://indiankanoon.org/doc/136020121/" target="_blank" rel="noreferrer">Indian court judgment: Sandeep Katoch matter ↗</a> · <a href="https://www.livelaw.in/pdf_upload/index-569729.pdf" target="_blank" rel="noreferrer">Delhi High Court case record (crypto tracing addresses) ↗</a>
+      <br><br><strong>Address vs TXID:</strong> A wallet address can contain many transactions. The Analyzer now accepts either a 64-character Bitcoin TXID or a Bitcoin wallet address. Address mode summarizes activity and displays up to 25 recent transactions; select a transaction from the list or graph for follow-up analysis by pasting its TXID. Ethereum addresses open in Etherscan and are not supported by this Bitcoin-only simulator.
+      <br><br><strong>Evidence caution:</strong> These public identifiers are training leads cited in public records, not proof of identity or guilt. Verify each transaction and its context before using it in a case narrative.
+    </div>
+  </section>
+</section>
+<script>
+(function(){
+  const a=document.getElementById('analysisTab'), e=document.getElementById('examplesTab');
+  const ap=document.getElementById('analysisPanel'), ep=document.getElementById('examplesPanel');
+  function show(which){
+    const isExamples=which==='examples';
+    ap.hidden=isExamples; ep.hidden=!isExamples;
+    a.classList.toggle('active',!isExamples); e.classList.toggle('active',isExamples);
+    a.setAttribute('aria-selected',String(!isExamples)); e.setAttribute('aria-selected',String(isExamples));
+  }
+  a.addEventListener('click',()=>show('analysis'));
+  e.addEventListener('click',()=>show('examples'));
+})();
+</script>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let network=null, nodeStore=null, edgeStore=null, selectedData=null;
+const fmtBTC=sats=>(Number(sats||0)/1e8).toLocaleString(undefined,{maximumFractionDigits:8});
+const short=s=>s?`${s.slice(0,10)}…${s.slice(-8)}`:"—";
+function apiBase(){return $("networkSel").value==="testnet"?"https://mempool.space/testnet/api":"https://mempool.space/api"}
+function explorerBase(){return $("networkSel").value==="testnet"?"https://mempool.space/testnet":"https://mempool.space"}
+function setStatus(msg,isError=false){$("status").innerHTML=msg;$("status").style.borderColor=isError?"#d9534f":"var(--border)"}
+async function get(path){const r=await fetch(apiBase()+path);if(!r.ok)throw new Error(`API returned HTTP ${r.status} for ${path}`);return r.json()}
+function txNode(tx,kind="parent"){
+ const id=tx.txid;const status=tx.status||{};
+ const label=(kind==="focus"?"FOCUS TX\n":kind==="parent"?"PARENT TX\n":"SPENDER TX\n")+short(id);
+ const color=kind==="focus"?"#f7931a":kind==="parent"?"#5597df":"#49ad7b";
+ return {id,label,shape:"box",margin:12,color:{background:color,border:color,highlight:{background:color,border:"#fff"}},font:{color:"#101827",size:13,bold:true},title:`${id}\n${status.confirmed?"Confirmed":"Unconfirmed"}`,kind,tx};
+}
+function addEdge(from,to,value,labelPrefix=""){
+ const label=value!=null?`${labelPrefix}${fmtBTC(value)} BTC`:"";
+ const id=`${from}->${to}`;
+ if(!edgeStore.get(id))edgeStore.add({id,from,to,label,arrows:"to",font:{align:"middle",size:11,background:"var(--panel)"},color:{color:"#8b96a8",highlight:"#f7931a"},width:1.5});
+}
+function detailHTML(n){
+ if(!n)return "<p>Select a node in the graph to view details.</p>";
+ if(n.kind==="focus"||n.kind==="parent"||n.kind==="spender"){
+ const t=n.tx||{};const s=t.status||{};
+ return `<div class="detailrow"><b>Transaction ID</b><span>${t.txid||n.id}</span></div>
+ <div class="detailrow"><b>Role in graph</b><span>${n.kind}</span></div>
+ <div class="detailrow"><b>Status</b><span>${s.confirmed?`Confirmed · block ${s.block_height}`:"Unconfirmed / status unavailable"}</span></div>
+ <div class="detailrow"><b>Fee</b><span>${t.fee==null?"—":fmtBTC(t.fee)+" BTC"}</span></div>
+ <div class="detailrow"><b>Size / weight</b><span>${t.size??"—"} bytes / ${t.weight??"—"} WU</span></div>
+ <div class="detailrow"><b>Open explorer</b><span><a target="_blank" rel="noreferrer" href="${explorerBase()}/tx/${t.txid||n.id}">View transaction ↗</a></span></div>`;
+ }
+ return `<div class="detailrow"><b>Node</b><span>${n.label||n.id}</span></div><div class="detailrow"><b>Type</b><span>${n.kind||"Transaction output"}</span></div><div class="detailrow"><b>Value</b><span>${n.value==null?"—":fmtBTC(n.value)+" BTC"}</span></div>`;
+}
+function resetGraph(){nodeStore=new vis.DataSet([]);edgeStore=new vis.DataSet([]);const container=$("network");if(network)network.destroy();network=new vis.Network(container,{nodes:nodeStore,edges:edgeStore},{interaction:{hover:true,navigationButtons:true,keyboard:true},physics:{enabled:true,stabilization:{iterations:150}},edges:{smooth:{type:"dynamic"}},nodes:{borderWidth:1},layout:{improvedLayout:true}});network.on("selectNode",p=>{$("details").innerHTML=detailHTML(nodeStore.get(p.nodes[0]));});}
+async function analyzeAddress(address){
+  // mempool.space address endpoint supports legacy, wrapped SegWit, and native SegWit addresses.
+  const summary=await get(`/address/${encodeURIComponent(address)}`);
+  const stats=summary.chain_stats||{}, pending=summary.mempool_stats||{};
+  const txCount=(stats.tx_count||0)+(pending.tx_count||0);
+  const received=(stats.funded_txo_sum||0)+(pending.funded_txo_sum||0);
+  const spent=(stats.spent_txo_sum||0)+(pending.spent_txo_sum||0);
+  $("mInputs").textContent="—";
+  $("mOutputs").textContent=txCount.toLocaleString();
+  $("mValue").textContent=fmtBTC(received)+" BTC received";
+  $("mFee").textContent=fmtBTC(Math.max(0,received-spent))+" BTC balance";
+  $("mConf").textContent=`${stats.tx_count||0} confirmed · ${pending.tx_count||0} pending`;
+  if($("explorerLink"))$("explorerLink").href=explorerBase()+"/address/"+encodeURIComponent(address);
+
+  const addrId="address:"+address;
+  nodeStore.add({id:addrId,label:"WALLET ADDRESS\n"+short(address),shape:"ellipse",margin:14,
+    color:{background:"#8b7cf6",border:"#6d5ce7"},font:{color:"#fff",size:13,bold:true},
+    title:address,kind:"address",address});
+  let txs=[];
+  try { txs=await get(`/address/${encodeURIComponent(address)}/txs`); }
+  catch(e) { throw new Error("Address summary loaded, but its transaction history could not be fetched: "+e.message); }
+  const rows=[];
+  txs.slice(0,25).forEach((tx,i)=>{
+    const id=tx.txid;
+    nodeStore.add(txNode(tx,"spender"));
+    addEdge(addrId,id,undefined);
+    const sent=(tx.vout||[]).filter(o=>o.scriptpubkey_address===address).reduce((a,o)=>a+(o.value||0),0);
+    const receivedByInputs=(tx.vin||[]).filter(v=>v.prevout?.scriptpubkey_address===address).reduce((a,v)=>a+(v.prevout?.value||0),0);
+    const direction=sent>0&&receivedByInputs>0?"Self/round-trip":sent>0?"Received":receivedByInputs>0?"Spent":"Related";
+    rows.push(`<tr><td>${direction}</td><td>${i+1}</td><td>${fmtBTC(sent||receivedByInputs)} BTC</td><td>${id}</td><td><a href="${explorerBase()}/tx/${id}" target="_blank" rel="noreferrer">Open TX ↗</a></td></tr>`);
+  });
+  $("ioTable").innerHTML=rows.join("")||'<tr><td colspan="5">No recent transactions found for this address.</td></tr>';
+  setStatus(`Address analysis complete. ${txCount.toLocaleString()} total transaction(s) reported; showing up to ${Math.min(txs.length,25)} recent transaction(s). The graph links the address to transactions in its recent history. This is an address activity view, not a full ownership attribution.`);
+  network.fit({animation:{duration:350}});
+}
+async function analyze(){
+ const input=$("txid").value.trim();
+ const txid=input.toLowerCase();
+ const isTxid=/^[0-9a-f]{64}$/.test(txid);
+ const isAddress=/^(bc1[ac-hj-np-z02-9]{11,71}|[13][a-km-zA-HJ-NP-Z1-9]{25,34}|tb1[ac-hj-np-z02-9]{11,71}|[mn2][a-km-zA-HJ-NP-Z1-9]{25,34})$/i.test(input);
+ if(!isTxid&&!isAddress){setStatus("Enter a valid Bitcoin TXID (64 hexadecimal characters) or a Bitcoin mainnet/testnet address.",true);return}
+ $("analyze").disabled=true;$("analyze").textContent="Analyzing…";
+ try{
+ resetGraph();
+ if(isAddress){setStatus("Fetching address summary and recent transactions…");await analyzeAddress(input);return}
+ setStatus("Fetching transaction and neighbouring UTXO spends…");
+ const focus=await get(`/tx/${txid}`);
+ const status=focus.status||{};
+ const focusNode=txNode(focus,"focus");nodeStore.add(focusNode);
+ $("mInputs").textContent=focus.vin?.length??0;$("mOutputs").textContent=focus.vout?.length??0;
+ $("mValue").textContent=fmtBTC((focus.vout||[]).reduce((a,o)=>a+(o.value||0),0))+" BTC";
+ $("mFee").textContent=focus.fee==null?"—":fmtBTC(focus.fee)+" BTC";
+ $("mConf").textContent=status.confirmed?`Block ${status.block_height}`:"Unconfirmed";
+ if($("explorerLink"))$("explorerLink").href=explorerBase()+"/tx/"+txid;
+ const rows=[];
+ // Parent transactions: each input references a previous output.
+ const parents=[...new Set((focus.vin||[]).filter(v=>v.txid).map(v=>v.txid))];
+ const parentResults=await Promise.allSettled(parents.slice(0,20).map(id=>get(`/tx/${id}`)));
+ parentResults.forEach((res,i)=>{
+   if(res.status!=="fulfilled")return;
+   const pt=res.value;nodeStore.add(txNode(pt,"parent"));
+   const inputs=(focus.vin||[]).filter(v=>v.txid===pt.txid);
+   inputs.forEach(v=>addEdge(pt.txid,txid,v.prevout?.value));
+ });
+ (focus.vin||[]).forEach((v,i)=>rows.push(`<tr><td>Input</td><td>${i}</td><td>${v.is_coinbase?"Coinbase":fmtBTC(v.prevout?.value)}</td><td>${v.prevout?.scriptpubkey_address||v.prevout?.scriptpubkey||"—"}</td><td>${v.txid||"Coinbase"}</td></tr>`));
+ const outs=focus.vout||[];
+ const spendResults=await Promise.allSettled(outs.map((o,i)=>get(`/tx/${txid}/outspend/${i}`)));
+ const childIds=[...new Set(spendResults.filter(r=>r.status==="fulfilled"&&r.value.spent&&r.value.txid).map(r=>r.value.txid))];
+ const childResults=await Promise.allSettled(childIds.slice(0,20).map(id=>get(`/tx/${id}`)));
+ const childMap=new Map();
+ childResults.forEach((r)=>{if(r.status==="fulfilled"){nodeStore.add(txNode(r.value,"spender"));childMap.set(r.value.txid,r.value)}});
+ outs.forEach((o,i)=>{
+   const sp=spendResults[i];let related="Unspent";
+   if(sp.status==="fulfilled"&&sp.value.spent&&sp.value.txid){related=sp.value.txid;addEdge(txid,related,o.value);}
+   rows.push(`<tr><td>Output</td><td>${i}</td><td>${fmtBTC(o.value)}</td><td>${o.scriptpubkey_address||o.scriptpubkey||"—"}</td><td>${related}</td></tr>`);
+ });
+ // Optional second hop: fetch parent transaction inputs and spender outputs, capped to protect the public API.
+ if($("scope").value==="2"){
+   setStatus("Expanding second hop (capped to limit API requests)…");
+   const candidates=[...parents.slice(0,8),...childIds.slice(0,8)];
+   const txs=[...parentResults.filter(r=>r.status==="fulfilled").map(r=>r.value),...childResults.filter(r=>r.status==="fulfilled").map(r=>r.value)];
+   const jobs=[];
+   for(const t of txs){
+     if(t.txid===txid)continue;
+     for(const v of (t.vin||[]).slice(0,6))if(v.txid&&!nodeStore.get(v.txid))jobs.push({id:v.txid,from:v.txid,to:t.txid,value:v.prevout?.value,kind:"parent"});
+     for(let i=0;i<Math.min((t.vout||[]).length,6);i++)jobs.push({id:t.txid,idx:i,to:null,value:t.vout[i].value,kind:"out"});
+   }
+   const unique=[...new Map(jobs.filter(j=>j.kind==="parent").map(j=>[j.id,j])).values()].slice(0,12);
+   const extra=await Promise.allSettled(unique.map(j=>get(`/tx/${j.id}`)));
+   extra.forEach((r,i)=>{if(r.status==="fulfilled"){const t=r.value;nodeStore.add(txNode(t,"parent"));const target=txs.find(x=>x.vin?.some(v=>v.txid===t.txid));if(target){const vin=target.vin.find(v=>v.txid===t.txid);addEdge(t.txid,target.txid,vin?.prevout?.value)}}});
+ }
+ $("ioTable").innerHTML=rows.join("")||'<tr><td colspan="5">No input/output data returned.</td></tr>';
+ const nParents=parents.length, nChildren=childIds.length;
+ setStatus(`Analysis complete. Displaying ${nodeStore.length} transaction nodes, ${nParents} distinct parent transaction(s), and ${nChildren} directly observed spender transaction(s). Some neighbours may be omitted by the request cap or API errors.`);
+ network.fit({animation:{duration:350}});
+ }catch(e){setStatus(`Could not analyze this input: ${e.message}. Check the TXID/address, network selection, and API availability.`,true)}
+ finally{$("analyze").disabled=false;$("analyze").textContent="Analyze"}
+}
+$("analyze").addEventListener("click",analyze);
+$("txid").addEventListener("keydown",e=>{if(e.key==="Enter")analyze()});
+$("themeBtn").addEventListener("click",()=>{const dark=document.documentElement.dataset.theme!=="dark";document.documentElement.dataset.theme=dark?"dark":"light";$("themeBtn").textContent=dark?"☀ Light mode":"☾ Dark mode";if(network)network.redraw()});
+$("networkSel").addEventListener("change",()=>{if($("explorerLink"))$("explorerLink").href=explorerBase()});
+resetGraph();
+</script>
+</body></html>
